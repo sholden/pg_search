@@ -83,13 +83,13 @@ module PgSearch
 
     def subquery
       relation = model
-        .unscoped
-        .select("#{primary_key} AS pg_search_id")
-        .select("#{rank} AS rank")
-        .joins(subquery_join)
-        .where(conditions)
-        .limit(nil)
-        .offset(nil)
+                 .unscoped
+                 .select("#{primary_key} AS pg_search_id")
+                 .select("#{rank} AS rank")
+                 .joins(subquery_join)
+                 .where(conditions)
+                 .limit(nil)
+                 .offset(nil)
 
       block_given? ? yield(relation) : relation
     end
@@ -147,7 +147,8 @@ module PgSearch
     end
 
     def rank_join(rank_table_alias, &block)
-      "INNER JOIN (#{subquery(&block).to_sql}) AS #{rank_table_alias} ON #{primary_key} = #{rank_table_alias}.pg_search_id"
+      "INNER JOIN (#{subquery(&block).to_sql}) AS #{rank_table_alias}" \
+        " ON #{primary_key} = #{rank_table_alias}.pg_search_id"
     end
 
     def include_table_aliasing_for_rank(scope)
